@@ -1,4 +1,11 @@
 
+# IT Project Report Skeleton
+
+### Design Graph Link
+    https://unimelbcloud-my.sharepoint.com/:u:/g/personal/peihongl_student_unimelb_edu_au/Ee1CcKK7F25OvqqulfCpuGEBpLTNOVXbd5Po1QQnEMrUHg
+
+### IDK what else to put here... (maybe shared word document?)
+
 ### 1. **System Architecture Overview**
 
 The System Architecture Overview provides a high-level view of the entire system, explaining how each component fits together and interacts within the "Wise Sage Robot" project.
