@@ -1,8 +1,11 @@
 # Code written in Python 2.7
 # should cd to the directory where the SDK is located when running this code
 
+# Change Me:
+SDK_ABS_PATH = ""
+
 import sys
-sys.path.append("SDK/lib/python2.7/site-packages")
+sys.path.append(SDK_ABS_PATH)
 
 from naoqi import ALProxy
 
