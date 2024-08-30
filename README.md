@@ -92,36 +92,6 @@ Ideally, our robot should be able to understand what people say to it and genera
 Each quote in this database comes with two extra attributes: a mood and an action. So, when the robot, NOVA6, decides what it’s going to say, it will also perform an action that reflects the mood of the quote. This way, even if the robot can’t fully grasp or process a conversation, it will still be able to interact in a meaningful and expressive way.
 
 
-#### **Components to Include:**
-
-1. **Data Storage**:
-   - **Local Storage**:
-     - **Temporary Cache**: Specifications of the temporary cache used for storing real-time interaction data (e.g., current session details, real-time sensor data).
-     - **Log Files**: Structure and storage locations for logs that track system performance, user interactions, and errors.
-   - **Remote Database**:
-     - **User Data**: Schema for storing user-specific data such as interaction history, preferences, and glass identification.
-     - **Knowledge Database**: Schema for the wisdom database, including categories of advice (e.g., health, relationships) and associated metadata for fast retrieval.
-
-2. **Data Processing**:
-   - **Input Data Processing**:
-     - **Audio Data Pipeline**: Steps for processing voice input, from raw audio capture to final text output using speech recognition.
-     - **Image Data Pipeline**: Process for handling visual input, including recognition of the special glasses and object classification.
-   - **Output Data Generation**:
-     - **Response Generation**: How data from the knowledge database is combined with user input to generate appropriate responses.
-     - **Speech Synthesis**: Pipeline for converting text responses into synthesized speech for output.
-
-3. **Data Flow**:
-   - **Real-Time Data Handling**: How the system manages and prioritizes real-time data (e.g., immediate user inputs vs. background processing tasks).
-   - **Data Synchronization**: Mechanisms for synchronizing local data with remote databases, ensuring consistency and reliability.
-
-4. **Data Security and Privacy**:
-   - **Encryption**: Methods used to encrypt sensitive data both in transit and at rest, protecting user privacy.
-   - **Access Control**: Policies and mechanisms for controlling access to sensitive data, ensuring only authorized entities can access or modify data.
-
-5. **Backup and Recovery**:
-   - **Backup Strategy**: Regular backup procedures for critical data, including user interaction history and the knowledge database.
-   - **Disaster Recovery**: Plans and protocols for restoring data and system functionality in the event of hardware failure or data corruption.
-
 ### 4. **API Design Document**
 
 The API Design Document details the interfaces between system components, ensuring smooth and reliable communication.
