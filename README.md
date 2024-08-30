@@ -207,7 +207,11 @@ The Data Architecture Document focuses on how data is structured, stored, and pr
 
 ### 4. **API Design Document**
 
-The API Design Document details the interfaces between system components, ensuring smooth and reliable communication.
+APIs in this system are primarily used for data exchange between Robots and process backend, and setting states for the robot.
+
+<div style="text-align: center;">
+<img src="Images/Architecture_Overview.png" style="align-self: center;"></br>Architecture Overview</img>
+</div>
 
 #### **Components to Include:**
 
