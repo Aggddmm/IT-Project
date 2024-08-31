@@ -72,14 +72,14 @@ The Component Design Document offers a detailed breakdown of each system compone
      - **Feedback Mechanisms**: Methods for providing visual or auditory feedback to users during interaction.
 
 3. **Integration Components**:
-   3.1 **Data Handling**:
+   - **Data Handling**:
      - **Data Flow**:
        - **Sensors to Processing Units**: The robot uses a camera and microphone to detect and recognize faces, objects, and spoken words. The sensor data is captured in real time and sent to the CPU for analysis. The camera captures visual input like faces, objects, while the microphone captures audio input such as spoken words or phrases.
        - **Processing Units to Output Modules**: After the data is processed by the CPU—identifying objects or recognizing speech—the robot generates appropriate responses. These responses are then sent to output modules such as the speech synthesis module (to speak advice or proverbs) and the motor control module (to initiate subtle hand movements or nodding).
      - **Data Buffering**:
        - **Real-Time Processing**: Sensor data, such as live camera feed and audio input, is temporarily buffered to ensure real-time processing. For instance, frames from the camera are buffered momentarily to allow facial or object recognition algorithms to operate. Similarly, audio data is buffered in small chunks to enable continuous speech recognition.
        - **Handling Delays**: To manage any processing delays, a circular buffer is used to ensure that the most recent data is always available while older, irrelevant data is discarded. This allows the system to respond quickly and accurately to user interactions without significant lag.
-   3.2 **Middleware**:
+   - **Middleware**:
      - **API Definitions**:
        - **Camera API**: Provides interfaces for initializing the camera, capturing frames, and retrieving real-time video feeds. It also includes functions for adjusting camera settings based on different lighting conditions.
        - **Audio Input API**: Offers functions for capturing audio from the robot's microphone, processing the audio for noise reduction, and passing the data to the speech recognition module.
@@ -88,7 +88,7 @@ The Component Design Document offers a detailed breakdown of each system compone
        - **Motor Control API**: Provides methods to control the robot's hand movements, nodding actions, and other gestures to portray thoughtful stances and emphasize the robot's advice.
        - **Data Communication API**: Middleware API that handles data exchange between different components (e.g., sensor data to processing unit, processing results to output modules). It ensures reliable and efficient communication, using message queuing or a publish-subscribe model.
 4. **User Interaction Design**:
-   4.1 **Interaction Flow**:
+   - **Interaction Flow**:
      - **User Approach**: When a user approaches the robot, the proximity sensor triggers the system to initiate interaction mode. The camera begins facial recognition, and the microphone activates to capture any spoken input.
        - **Recognition and Greeting**: Upon recognizing a user (either by face or voice), the robot gently nods and greets the user with a calm welcome message, inviting them to seek wisdom or ask for advice.
      - **Interaction Engagement**:
@@ -96,7 +96,7 @@ The Component Design Document offers a detailed breakdown of each system compone
        - **Processing and Response**: Based on the recognized input (face, object, or spoken words), the robot's CPU selects an appropriate response from its database of wisdom or proverbs. For example, if a book is recognized, the robot might say, "Knowledge is the path to wisdom, and every book is a step along that journey."
        - **Output Delivery**: The selected response is delivered through the speech synthesis module, and accompanying gestures are performed by the robot's hands or head to emphasize the message.
      - **End of Interaction**: After providing a response, the robot waits for further input. If no further input is detected for a set period, the robot gently nods and returns to an idle state, waiting for the next user.
-   4.2 **Error Handling**:
+   - **Error Handling**:
      - **Unclear or Unrecognized Input**:
        - **Fallback Strategies**: If the robot fails to recognize the user’s input (either audio or visual), it responds with a polite prompt, such as “I’m sorry, I didn’t quite catch that. Could you please repeat?” This encourages the user to try again without frustration.
        - **Repeat Prompt Limitation**: To avoid infinite loops, the robot is programmed to limit the number of unrecognized attempts. After three failed attempts, it says, "I may not understand everything, but I’m here to help however I can," and returns to an idle state.
