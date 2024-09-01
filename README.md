@@ -107,6 +107,143 @@ The Component Design Document offers a detailed breakdown of each system compone
 
 ### 3. **Data Architecture Document**
 
+### Database ER Diagram
+
+
++----------------------------------------+
+|               Robot                    |
+|----------------------------------------|
+| Robot_ID PK     | int                  |
+| Name            | varchar(255)         |
+| Hardware_Specs  | text                 |
+| Software_Version| varchar(50)          |
++----------------------------------------+
+
+  |
+  |
+  has
+  |
+  v
+
++----------------------------------------+
+|           Audio-sensors                |
+|----------------------------------------|
+| Sensor_ID PK   | int                   |
+| Robot_ID FK    | int                   |
+| Type           | varchar(50)           |
+| Location       | varchar(100)          |
+| Status         | varchar(50)           |
++----------------------------------------+
+
+  |
+  |
+  captures
+  |
+  v
+
++----------------------------------------+
+|           Sensor_Data                  |
+|----------------------------------------|
+| Data_ID PK      | int                  |
+| Sensor_ID FK    | int                  |
+| Timestamp       | datetime             |
+| Data_Type       | varchar(50)          |
+| Data_Value      | text                 |
++----------------------------------------+
+
+  |
+  |
+  processed by
+  |
+  v
+
++----------------------------------------+
+|           Processing_Unit              |
+|----------------------------------------|
+| Unit_ID PK       | int                 |
+| Sensor_Data_ID FK| int                 |
+| Type             | varchar(50)         |
+| Status           | varchar(50)         |
++----------------------------------------+
+
+  |
+  |
+  sends data to
+  |
+  v
+
++----------------------------------------+
+|           Output_Modules               |
+|----------------------------------------|
+| Module_ID PK      | int                |
+| Processing_Unit_ID FK | int            |
+| Type              | varchar(50)        |
+| Status            | varchar(50)        |
++----------------------------------------+
+
+  |
+  |
+  generates
+  |
+  v
+
++----------------------------------------+
+|           Robot_Responses              |
+|----------------------------------------|
+| Response_ID PK    | int                |
+| Output_Module_ID FK | int              |
+| Response_Type     | varchar(50)        |
+| Content           | text               |
+| Timestamp         | datetime           |
++----------------------------------------+
+
+
++----------------------------------------+
+|           Robot_Actions                |
+|----------------------------------------|
+| Action_ID PK      | int                |
+| Robot_ID FK       | int                |
+| Type              | varchar(50)        |
+| Location          | varchar(100)       |
+| Status            | varchar(50)        |
++----------------------------------------+
+
++----------------------------------------+
+|               Users                    |
+|----------------------------------------|
+| User_ID PK        | int                |
+| Name              | varchar(100)       |
+| Profile_Data      | text               |
+| Interaction_History | text             |
++----------------------------------------+
+
+  |
+  |
+  uses
+  |
+  v
+
++----------------------------------------+
+|             Audio_output               |
+|----------------------------------------|
+| Audio_ID PK      | int                 |
+| User_ID FK       | int                 |
+| Type             | varchar(50)         |
+| Status           | varchar(50)         |
++----------------------------------------+
+
+
++----------------------------------------+
+|           Wisdom_Database              |
+|----------------------------------------|
+| Quote_ID PK       | int                |
+| Remote_Server_ID FK | int              |
+| Content           | text               |
+| Mood              | varchar(50)        |
+| Associated_Action | varchar(100)       |
++----------------------------------------+
+
+
 The Data Architecture Document focuses on how data is structured, stored, and processed within the system, ensuring that the robot can efficiently manage user interactions and knowledge.
 
 Ideally, our robot should be able to understand what people say to it and generate intelligent responses using our AI system. That’s the perfect scenario we're aiming for. But if the voice recognition isn't quite up to par, we’ve got a backup plan. We’ve set up a database filled with hundreds of famous quotes. If needed, the robot can pick an appropriate quote from this database to respond with.
