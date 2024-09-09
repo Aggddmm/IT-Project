@@ -1,11 +1,15 @@
 from flask import Flask, jsonify, request
-from robotConnect import Robot
+from robot_connect import Robot
+import requests
 
 # Constants
 IP_TITLE = "ip"
 PORT_TITLE = "port"
 MESSAGE_TITLE = "message"
 ERROR_TITLE = "error"
+GET = "GET"
+POST = "POST"
+ERROR = -1
 
 # Global vatiables 
 robotIP = ""
@@ -13,6 +17,8 @@ robotPort = 0
 remoteRobot = None
 isDebug = False
 serverPort = 5000
+python3ServerIP = "127.0.0.1"
+python3ServerPort = 63121
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -22,12 +28,38 @@ def runServer(debug=False, port=5000):
     global serverPort
     isDebug = debug
     serverPort = port
-    
     app.run(debug=debug, port=port)
+    
+def connect_server(ip, port, method, api_entry='/checkConnection', data=None):
+    if method == GET:
+        try:
+            respond = requests.get("http://" + ip + ":" + str(port) + api_entry)
+        except requests.exceptions.RequestException as e:
+            print "[-] Error: ", e
+            return ERROR
+    if method == POST:
+        try:
+            respond = requests.post("http://" + ip + ":" + str(port) + api_entry, json=data)
+        except requests.exceptions.RequestException as e:
+            print "[-] Error: ", e
+            return ERROR
+    if respond.status_code != 200:
+        print "[-] Error: ", respond.status_code
+        return ERROR
+    return respond
 
 @app.route('/checkConnection', methods=['GET'])
-def api():
-    # Return a JSON response
+def check_connection():
+    # call 127.0.0.1:63121/checkConnection
+    global isDebug
+    if isDebug:
+        print "[+] Checking Connection for Python 3 Backend"
+    
+    # Check if the Python 3 server is running
+    respond = connect_server(python3ServerIP, python3ServerPort, GET, '/checkConnection')
+    if respond == ERROR:
+        return jsonify({ERROR_TITLE: "Python 3 Server is not running"}), 400
+    
     return jsonify({MESSAGE_TITLE: "Connection Alive"})
 
 # API Call to Robot Say
@@ -79,7 +111,22 @@ def set_robot_ip_port():
     else:
         return jsonify({ERROR_TITLE: "Invalid input, expected JSON with 'ip' and 'port' keys"}), 400
 
+@app.route('/py3LMWrapper', methods=['POST'])
+def lm_wrapper():
+    data = request.get_json()
+    if data and MESSAGE_TITLE in data:
+        text = str(data[MESSAGE_TITLE])
+        
+        respond = connect_server(python3ServerIP, python3ServerPort, POST, '/generateText', {MESSAGE_TITLE: text})
+        
+        if respond == ERROR or ERROR_TITLE in respond.json():
+            return jsonify({ERROR_TITLE: "Error!"}), 400
+        
+        return jsonify({MESSAGE_TITLE: respond.json()[MESSAGE_TITLE]})
+    else:
+        return jsonify({ERROR_TITLE: "Invalid input, expected JSON with 'message' key"}), 400
+        # call
 # Run the app when the script is executed
 if __name__ == '__main__':
     # Enable debug mode and set the port
-    runServer(debug=True, port=5000)
+    runServer(debug=True, port=26386)

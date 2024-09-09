@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/opt/anaconda3/envs/MPS-Torch/lib/python3.12/site-packages")
+
 from flask import Flask, request, jsonify, send_file
 from scipy.io.wavfile import write
 import io
@@ -10,7 +13,12 @@ ERROR_TITLE = "error"
 # Global variables
 app = Flask(__name__)
 language_model = None
-language_model_path = "/Volumes/Untitled/Gemma 2/gemma-2-2b-it"
+language_model_path = "/Users/lipeihong/Desktop/IT Project/py3/Language_Model/LM/gemma-2-2b-it"
+
+# flask APIs
+@app.route('/checkConnection', methods=['GET'])
+def check_connection():
+    return jsonify({MESSAGE_TITLE: "Connection Alive"})
 
 import TTS.TTS
 @app.route('/getAudio', methods=['POST'])
@@ -42,8 +50,11 @@ def generate_text():
         
         if not language_model:
             language_model = Language_Model.LM.Gemma2LMBackEnd(language_model_path)
-        generated_text = language_model.generate_text(text)
+        generated_text = language_model.generate_text(text + "**chatting tone** **brief answer**")
+        generated_text = generated_text.split("\n\n")[1]
         return jsonify({MESSAGE_TITLE: generated_text})
     else:
         return jsonify({'error': 'Invalid input, expected JSON with "audio" key'}), 400
-app.run(debug=True, port=5000)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=63121)

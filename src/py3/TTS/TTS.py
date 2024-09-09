@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/opt/anaconda3/envs/MPS-Torch/bin")
+
 from transformers import pipeline
 from datasets import load_dataset
 import numpy as np

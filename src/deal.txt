@@ -1,0 +1,7 @@
+Let's say py2 Server port is on 26386 
+      and py3 Server port is on 63121
+
+meanwhile, py3 refers to Python 3.12
+       and py2 refers to Python 2.7,
+
+OK?
