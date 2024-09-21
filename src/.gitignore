@@ -1,1 +1,4 @@
 /py2/SDK
+__pycache__
+*.pyc
+.DS_Store
