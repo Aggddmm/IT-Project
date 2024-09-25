@@ -1,4 +1,4 @@
-from MLBackendInterface import Backend_Interface
+from Interfaces.MLBackendInterface import Backend_Interface
 
 from abc import ABC, abstractmethod
 

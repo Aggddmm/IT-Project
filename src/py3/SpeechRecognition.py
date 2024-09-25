@@ -1,4 +1,4 @@
-from SpeechRecognitionInterface import SpeechRecognition_Interface
+from Interfaces.SpeechRecognitionInterface import SpeechRecognition_Interface
 
 import torch
 import os

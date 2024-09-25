@@ -1,4 +1,4 @@
-from QuestionClassifierInterface import QuestionClassifier_Interface
+from Interfaces.QuestionClassifierInterface import QuestionClassifier_Interface
 
 import spacy
 import joblib

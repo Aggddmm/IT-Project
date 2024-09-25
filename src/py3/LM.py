@@ -1,4 +1,4 @@
-from LMInterface import LM_Interface
+from Interfaces.LMInterface import LM_Interface
 from LM_ChatState import ChatState
 
 import os

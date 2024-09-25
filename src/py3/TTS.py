@@ -1,4 +1,4 @@
-from TTSInterface import TTS_Interface
+from Interfaces.TTSInterface import TTS_Interface
 
 import torch
 from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerModel, FastSpeech2ConformerHifiGan
