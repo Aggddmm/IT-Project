@@ -3,12 +3,12 @@ from Interfaces.QuestionClassifierInterface import QuestionClassifier_Interface
 import spacy
 import joblib
 
-class QuestionClassifier(QuestionClassifier_Interface):
+class QuestionClassifierBackend(QuestionClassifier_Interface):
     _nlp = None
     _model = None
     _vectorizer = None
     _model_name = '/question_classifier_knn.pkl'
-    _vectorizer_name = 'vectorizer.joblib'
+    _vectorizer_name = '/vectorizer.joblib'
     _spacy_model_name = 'en_core_web_sm'
     
     def __init__(self):

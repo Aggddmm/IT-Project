@@ -46,28 +46,28 @@ class ChatState():
         if len(self.system)>0:
             prompt = self.system + "\n" + prompt
         return prompt
-
-    # def send_message(self, message):
-    #     """
-    #     Handles sending a user message and getting a model response.
-
-    #     Args:
-    #         message: The user's message.
-
-    #     Returns:
-    #         The model's response.
-    #     """
-    #     self.add_to_history_as_user(message)
-    #     prompt = self.get_full_prompt()
-        
-    #     response = self.model.generate(prompt, max_length=1024)
-    #     result = response.replace(prompt, "")  # Extract only the new response
-        
-    #     self.add_to_history_as_model(result)
-    #     return result
-    
     # custom methods to adapt our LM Class.
     def get_prompt(self, new_user_prompt:str):
         self.add_to_history_as_user(new_user_prompt)
         return self.get_full_prompt()
         
+
+# # Abandoned code
+# def send_message(self, message):
+#     """
+#     Handles sending a user message and getting a model response.
+
+#     Args:
+#         message: The user's message.
+
+#     Returns:
+#         The model's response.
+#     """
+#     self.add_to_history_as_user(message)
+#     prompt = self.get_full_prompt()
+    
+#     response = self.model.generate(prompt, max_length=1024)
+#     result = response.replace(prompt, "")  # Extract only the new response
+    
+#     self.add_to_history_as_model(result)
+#     return result
