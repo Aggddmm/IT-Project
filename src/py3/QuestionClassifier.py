@@ -7,7 +7,7 @@ class QuestionClassifierBackend(QuestionClassifier_Interface):
     _nlp = None
     _model = None
     _vectorizer = None
-    _model_name = '/question_classifier_knn.pkl'
+    _model_name = '/question_classifier_knn.joblib'
     _vectorizer_name = '/vectorizer.joblib'
     _spacy_model_name = 'en_core_web_sm'
     
