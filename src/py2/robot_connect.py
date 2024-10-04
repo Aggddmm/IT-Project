@@ -49,44 +49,69 @@ class Robot:
         proxy.stiffnessInterpolation(pNames, pStiffnessLists, pTimeLists)
     
     # Speech Recognition
-    
     def get_speech_recognition_proxy(self):
         return self.connect("ALSpeechRecognition")
     
     def get_language_avail(self):
         proxy = self.connect("ALSpeechRecognition")
         return str(proxy.getAvailableLanguages())
+    
+    # Behavior Management, code by MUMU47
+    def start_behavior(self, behavior_name):
+        behavior_manager = self.connect("ALBehaviorManager")
+        if behavior_manager:
+            if behavior_manager.isBehaviorInstalled(behavior_name):
+                if not behavior_manager.isBehaviorRunning(behavior_name):
+                    print("[*] Starting behavior:", behavior_name)
+                    behavior_manager.startBehavior(behavior_name)
+                else:
+                    print("[!] Behavior is already running:", behavior_name)
+            else:
+                print("[!] Behavior not installed:", behavior_name)
+    
+    def stop_behavior(self, behavior_name):
+        behavior_manager = self.connect("ALBehaviorManager")
+        if behavior_manager:
+            if behavior_manager.isBehaviorRunning(behavior_name):
+                print("[*] Stopping behavior:", behavior_name)
+                behavior_manager.stopBehavior(behavior_name)
+            else:
+                print("[!] Behavior is not running:", behavior_name)
+                
+    def get_all_behaviors(self):
+        behavior_manager = self.connect("ALBehaviorManager")
+        if behavior_manager:
+            return behavior_manager.getInstalledBehaviors()
+        else:
+            return None
+
 
 # test codes (main function)
 import time
 def main():
     # Set the IP address and port number to the physical robot
-    ip_addr = "192.168.1.106"
+    ip_addr = "127.0.0.1"
     port_remote = 9559
     robotInstance = Robot(ip_addr, port_remote)
     # API calls.
     
     # TODO: speed of speech adjustment (too fast) **Tested**
     robotInstance.say("do you like me if im nothing but a robot? even if i have no feelings? even if i have no soul? even if i have no heart?")
-    print(robotInstance.get_language_avail())
     
-    # # TODO: apply customized posture to the robot **Tested** "Some posture 100% works (StandInit, LyingBack), some doesn't"
-    # print str(robotInstance.getAllBodyPosture())
-    # robotInstance.setBodyPosture("LyingBack")
-    
-    # speech_recon_proxy = robotInstance.get_speech_recognition_proxy()
-    # speech_recon_proxy.setLanguage("English")
-    # vocabulary = ["yes", "no", "please", "thank you", "hello", "goodbye"]
-    # speech_recon_proxy.setVocabulary(vocabulary, False)
-    # speech_recon_proxy.subscribe("Test_ASR")
-    # print 'Speech recognition engine started'
-    # time.sleep(5)
-    # speech_recon_proxy.unsubscribe("Test_ASR")
-    
-    # # get word recognized
-    # recognized_word = speech_recon_proxy.getLastWordRecognized()
-    # print 'Recognized word: ', recognized_word
+    print(type(robotInstance.get_all_behaviors()))
 
 
 if __name__ == "__main__":
     main()
+    
+# behavior manager test code by MUMU47
+# # Replace with your behavior name as seen in Choregraphe
+# behavior_name = "new/Go to position Nod"
+
+# # Start the behavior
+# robot.start_behavior(behavior_name)
+
+# # Optionally, you can stop the behavior after some time
+# # import time
+# # time.sleep(5)
+# # robot.stop_behavior(behavior_name)

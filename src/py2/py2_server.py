@@ -1,12 +1,14 @@
 from flask import Flask, jsonify, request
 from robot_connect import Robot
 import requests
+import time
 
 # Constants
 IP_TITLE = "ip"
 PORT_TITLE = "port"
 MESSAGE_TITLE = "message"
 ERROR_TITLE = "error"
+DURATION_TITLE = "time"
 GET = "GET"
 POST = "POST"
 ERROR = -1
@@ -50,16 +52,6 @@ def connect_server(ip, port, method, api_entry='/checkConnection', data=None):
 
 @app.route('/checkConnection', methods=['GET'])
 def check_connection():
-    # call 127.0.0.1:63121/checkConnection
-    global isDebug
-    if isDebug:
-        print "[+] Checking Connection for Python 3 Backend"
-    
-    # Check if the Python 3 server is running
-    respond = connect_server(python3ServerIP, python3ServerPort, GET, '/checkConnection')
-    if respond == ERROR:
-        return jsonify({ERROR_TITLE: "Python 3 Server is not running"}), 400
-    
     return jsonify({MESSAGE_TITLE: "Connection Alive"})
 
 # API Call to Robot Say
@@ -126,7 +118,43 @@ def lm_wrapper():
     else:
         return jsonify({ERROR_TITLE: "Invalid input, expected JSON with 'message' key"}), 400
         # call
+
+@app.route('/getAllAvailBehavior', methods=['GET'])
+def get_all_avail_posture():
+    if remoteRobot is None:
+        return jsonify({ERROR_TITLE: "Please call /setRobotIPPort API First."}), 400
+    return jsonify({MESSAGE_TITLE: remoteRobot.get_all_behaviors()})
+
+@app.route('/startBehavior', methods=['POST'])
+def start_behavior():
+    data = request.get_json()
+    if data and MESSAGE_TITLE in data and DURATION_TITLE in data:
+        # Extract the message
+        behavior_name = str(data[MESSAGE_TITLE])
+        if remoteRobot is None:
+            return jsonify({ERROR_TITLE: "Please call /setRobotIPPort API First."}), 400
+        # Start the behavior
+        remoteRobot.start_behavior(behavior_name)
+        return jsonify({MESSAGE_TITLE: "Behavior Started"})
+    else:
+        return jsonify({ERROR_TITLE: "Invalid input, expected JSON with 'message' key"}), 400
+
+@app.route('/stopBehavior', methods=['POST'])
+def stop_behavior():
+    data = request.get_json()
+    if data and MESSAGE_TITLE in data:
+        # Extract the message
+        behavior_name = str(data[MESSAGE_TITLE])
+        if remoteRobot is None:
+            return jsonify({ERROR_TITLE: "Please call /setRobotIPPort API First."}), 400
+        # Stop the behavior
+        remoteRobot.stop_behavior(behavior_name)
+        return jsonify({MESSAGE_TITLE: "Behavior Stopped"})
+    else:
+        return jsonify({ERROR_TITLE: "Invalid input, expected JSON with 'message' key"}), 400
+    
 # Run the app when the script is executed
 if __name__ == '__main__':
     # Enable debug mode and set the port
     runServer(debug=True, port=26386)
+    
