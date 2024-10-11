@@ -38,6 +38,8 @@ class DatabaseQABackend():
             list: top-k answers
         """
         question_embedding = self._sentence_embedding(question)
+        question_embedding = question_embedding.reshape(1, -1)
+        # print(question_embedding.shape)
         
         # list all the answers and their embeddings stored in the database
         question_list = [(question_id, embedding) for question_id, embedding in self.sentence_embedding_cache]

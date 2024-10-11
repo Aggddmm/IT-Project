@@ -42,7 +42,13 @@ class LMBackend(LM_Interface):
         self.config = AutoConfig.from_pretrained(self.model_path)
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         
-        self.chat_state = ChatState(system="answer questions briefly with chat tone")
+        self.chat_state = ChatState(system="""
+                                    your name is wise sage robot, your primary job is to chat with users 
+                                    (1) answer their historical questions
+                                    (2) provide mental health support to the user
+                                    (3) besides above, you can have spare chat with users
+                                    remember, you are chatting with users, answer questions **briefly** with chat tone
+                                    """)
         print("    -> LMBackend loaded")
     
     def get_info(self):
@@ -68,6 +74,7 @@ class LMBackend(LM_Interface):
         answer = answer_list[len(answer_list)-1].split("<end_of_turn><eos>")[0].replace("\n", "")
         
         self.chat_state.add_to_history_as_model(answer)
+        answer = ''.join(char for char in answer if ord(char) < 128)
         print("    -> Generated response: ", answer)
         return answer
 
