@@ -2,7 +2,7 @@
 # should cd to the directory where the SDK is located when running this code
 
 # Change Me:
-SDK_ABS_PATH = "/Users/lipeihong/Desktop/IT Project/py2/SDK"
+SDK_ABS_PATH = "/home/aggddmm/Downloads/SDK"
 
 import sys
 sys.path.append(SDK_ABS_PATH + "/lib/python2.7/site-packages")

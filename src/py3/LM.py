@@ -34,7 +34,9 @@ class LMBackend(LM_Interface):
         # Load the model
         self.model = AutoModelForCausalLM.from_pretrained(
             pretrained_model_name_or_path=self.model_path, 
-            torch_dtype=torch.bfloat16
+            torch_dtype=torch.bfloat16,
+            low_cpu_mem_usage=True,
+            use_safetensors=True
         )
         self.model.to(torch.device(self.device))
         self.config = AutoConfig.from_pretrained(self.model_path)

@@ -1,13 +1,16 @@
 import sqlite3
 import numpy as np
 from transformers import AutoTokenizer, AutoModel
+
+from SentenceEmbedding_Singleton import SentenceEmbedding
+
 from sklearn.metrics.pairwise import cosine_similarity
 
 
 class DatabaseQABackend():
     """Class to handle the database connection and the sentence transformer model, as well as by fetching closest answer to a given question, please note, this class only handles user QA."""
     
-    def __init__(self, db_path:str, sentence_transformer_path:str='sentence-transformers/all-MiniLM-L6-v2'):
+    def __init__(self, db_path:str, sentence_transformer_path:str=''):
         """Default constructor, initializes the database connection and the sentence transformer
 
         Args:
@@ -18,8 +21,8 @@ class DatabaseQABackend():
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         # load model and tokenizer for calculating sentence embeddings
-        self.tokenizer = AutoTokenizer.from_pretrained(sentence_transformer_path)
-        self.model = AutoModel.from_pretrained(sentence_transformer_path)
+        # self.tokenizer = AutoTokenizer.from_pretrained(sentence_transformer_path)
+        # self.model = AutoModel.from_pretrained(sentence_transformer_path)
         # load the sentence embeddings cacahe from database
         self.cursor.execute("SELECT answer_id, embedding FROM answer_embeddings")
         self.sentence_embedding_cache = self.cursor.fetchall()
@@ -63,11 +66,12 @@ class DatabaseQABackend():
         Returns:
             ndarray: the sentence embedding
         """
-        inputs = self.tokenizer(sentence, return_tensors="pt")
-        model_out = self.model(**inputs)
-        embeddings = model_out.last_hidden_state[:, 0, :]
-        embeddings_np = embeddings.detach().numpy()
-        return embeddings_np
+        # inputs = self.tokenizer(sentence, return_tensors="pt")
+        # model_out = self.model(**inputs)
+        # embeddings = model_out.last_hidden_state[:, 0, :]
+        # embeddings_np = embeddings.detach().numpy()
+        instance = SentenceEmbedding()
+        return instance.get_sentence_embedding(sentence)
     
     def __del__(self):
         """ Destructor, closes the database connection """
