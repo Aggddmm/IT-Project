@@ -3,7 +3,7 @@
 ## Overview
 This project highlights a third-year university initiative, developed collaboratively with four group members. We designed and deployed a backend system integrating multiple AI models and the SoftBank NAOqi API. The system aims to answer users' questions using retrieval-augmented generation while providing body feedback through the NAO robot for a more engaging and intuitive interaction experience.
 
-![Project Image](blob:https://brickcarrier.atlassian.net/2b84c6a3-a4b3-41b2-83c6-57992f1a5bb0)
+![Project Image](https://github.com/Aggddmm/IT-Project/blob/main/Images/SystemDesign.png?raw=true)
 
 ## Features
 - Deployment of transformer models for various AI tasks.
